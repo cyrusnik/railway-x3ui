@@ -1,25 +1,19 @@
 FROM alpine:3.19
-
-RUN apk add --no-cache \
-    curl \
-    bash \
-    ca-certificates \
-    socat \
-    tzdata \
-    sqlite \
-    && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
-
-# نصب X-UI
-RUN curl -L https://github.com/mhsanaei/3x-ui/releases/download/v3.0.2/x-ui-linux-amd64.tar.gz -o /tmp/x-ui.tar.gz \
-    && tar -xzf /tmp/x-ui.tar.gz -C /usr/local/ \
-    && rm /tmp/x-ui.tar.gz \
-    && chmod +x /usr/local/x-ui/x-ui
-
-RUN mkdir -p /etc/x-ui /var/log/x-ui
-
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-EXPOSE ${PORT}
-
-CMD ["/start.sh"]
+RUN apk update && apk add --no-cache \
+curl \
+bash \
+ca-certificates \
+tzdata \
+openssl
+ENV TZ=Asia/Tehran
+UI-Xدانلود و نصب آخرین نسخه 3 #
+RUN bash -c "$(curl -L
+https://github.com/mhsanaei/3x-ui/raw/main/install.sh)" @ v3.0.2
+WORKDIR /usr/local/x-ui
+COPY start.sh /usr/local/x-ui/start.sh
+RUN chmod +x /usr/local/x-ui/start.sh
+اکسپوز پورت پنل مدیریتی #
+EXPOSE 2053
+اکسپوز پورت نمونه برای ترافیک و کانفیگها #
+EXPOSE 8080
+CMD ["/bin/sh", "start.sh"]
