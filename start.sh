@@ -1,15 +1,6 @@
-#!/bin/bash
-echo "🚀 Starting X-UI on port ${PORT}..."
-# تنظیم پورت در فایل کانفیگ
-mkdir -p /etc/x-ui
-cat > /etc/x-ui/config.json << EOF
-{
-  "webPort": ${PORT},
-  "webBasePath": "/",
-  "webListen": "0.0.0.0",
-  "logLevel": "info"
-}
-EOF
-# اجرای X-UI
-cd /usr/local/x-ui
-./x-ui
+#!/bin/sh
+اجرای دستورات اولیه در صورت نیاز #
+echo "Starting 3X-UI Panel on DCDeploy..."
+
+به صورت پیشزمینه برای زنده نگه داشتن کانتینر ui-x اجرای مستقیم باینری #
+exec /usr/local/x-ui/x-ui
